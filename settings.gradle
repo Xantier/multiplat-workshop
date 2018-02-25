@@ -1,0 +1,3 @@
+rootProject.name = 'multiplat-workshop'
+
+include 'multiplat-workshop-jvm', 'multiplat-workshop-js'
