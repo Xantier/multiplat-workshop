@@ -11,6 +11,7 @@ module.exports = {
     alias: {
       kotlin: path.resolve(__dirname, "build/kotlin-js-min/main/kotlin.js"),
       "multiplat-workshop-js": path.resolve(__dirname, "build/kotlin-js-min/main/multiplat-workshop-js.js"),
+      "kotlinx-coroutines-core-js": path.resolve(__dirname, "build/kotlin-js-min/main/kotlinx-coroutines-core-js.js"),
     }
   },
   plugins: [

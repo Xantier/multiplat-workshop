@@ -1,7 +1,8 @@
+import kotlinx.coroutines.experimental.async
 
-val client = ApiClient()
 fun main(args: Array<String>){
     println("starting")
-    client.fetchPhotos()
+    val photoProvider = PhotoProvider()
+    val deferred = async { photoProvider.fetchAndDisplayPhotos(CommonPhotoHandler) }
     println("ending")
 }

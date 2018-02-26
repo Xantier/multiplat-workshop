@@ -20,3 +20,8 @@ dependencies {
     expectedBy project(":")
     testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
