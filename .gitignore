@@ -38,3 +38,5 @@ out/
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 /.idea/
+
+node_modules/

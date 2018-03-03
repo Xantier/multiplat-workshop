@@ -2,5 +2,8 @@ import kotlinx.coroutines.experimental.runBlocking
 
 fun main(args: Array<String>) {
     val photoProvider = PhotoProvider()
-    runBlocking {photoProvider.fetchAndDisplayPhotos(CommonPhotoHandler)}
+    runBlocking {
+        val photos = photoProvider.fetchAndDisplayPhotos(PhotoHandler())
+        photos.forEach(::println)
+    }
 }

@@ -1,4 +1,3 @@
-expect object CommonPhotoHandler {
+expect class PhotoHandler {
     fun getApiClient() : ApiClient
-    fun render(photos: List<Photo>)
 }

@@ -1,9 +1,5 @@
-actual object CommonPhotoHandler {
-    actual fun getApiClient(): ApiClient {
-        return ApiClient()
-    }
-
+actual class PhotoDisplayer {
     actual fun render(photos: List<Photo>) {
-        println("Showing photos")
+        photos.forEach(::println)
     }
 }
