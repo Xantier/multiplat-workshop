@@ -1,7 +1,8 @@
 rootProject.name = 'multiplat-workshop'
 
-include 'multiplat-workshop-jvm', 'multiplat-workshop-js'
+include 'multiplat-workshop-jvm'
+include 'multiplat-workshop-js'
 include 'multiplat-workshop-client-react'
-include 'multiplat-workshop-client-cli'
+include 'multiplat-workshop-client-desktop'
 include 'multiplat-workshop-client'
 
