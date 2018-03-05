@@ -1,4 +1,9 @@
+package client
+
+import common.PhotoHandler
 import kotlinx.serialization.json.JSON
+import model.Photo
+import model.photoListSerializer
 
 class PhotoProvider {
     suspend fun fetchPhotos(photoHandler: PhotoHandler): List<Photo> {

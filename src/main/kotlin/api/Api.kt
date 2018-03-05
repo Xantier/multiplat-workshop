@@ -1,4 +1,4 @@
-
+package api
 expect class ApiClient{
     suspend fun fetchPhotos(): String
 }

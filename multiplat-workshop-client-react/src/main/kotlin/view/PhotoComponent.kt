@@ -1,3 +1,6 @@
+package view
+
+import model.Photo
 import react.RBuilder
 import react.RComponent
 import react.RProps

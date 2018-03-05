@@ -1,4 +1,4 @@
-
+package model
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.list

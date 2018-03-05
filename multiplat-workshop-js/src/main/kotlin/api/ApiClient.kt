@@ -1,3 +1,5 @@
+package api
+
 import org.w3c.fetch.RequestInit
 import kotlin.browser.window
 import kotlin.coroutines.experimental.suspendCoroutine

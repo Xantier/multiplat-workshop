@@ -1,5 +1,10 @@
+package view
+
+import client.PhotoProvider
+import common.PhotoHandler
 import javafx.scene.control.ScrollPane
 import kotlinx.coroutines.experimental.runBlocking
+import model.Photo
 import tornadofx.App
 import tornadofx.View
 import tornadofx.imageview
