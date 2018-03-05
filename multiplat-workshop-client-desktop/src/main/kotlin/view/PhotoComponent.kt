@@ -1,22 +1,13 @@
 package view
 
-import client.PhotoProvider
-import common.PhotoHandler
 import javafx.scene.control.ScrollPane
-import kotlinx.coroutines.experimental.runBlocking
 import model.Photo
 import tornadofx.App
 import tornadofx.View
 import tornadofx.imageview
 import tornadofx.vbox
 
-class HelloWorld : View() {
-    private val photos: List<Photo> by lazy {
-        val photoProvider = PhotoProvider()
-        runBlocking {
-            return@runBlocking photoProvider.fetchPhotos(PhotoHandler())
-        }
-    }
+class PhotoComponent : View() {
     override val root = ScrollPane()
 
     init {
@@ -33,8 +24,12 @@ class HelloWorld : View() {
             }
         }
     }
+
+    companion object {
+        var photos = listOf<Photo>()
+    }
 }
 
-class HelloWorldApp : App() {
-    override val primaryView = HelloWorld::class
+class TornadoApplication : App() {
+    override val primaryView = PhotoComponent::class
 }

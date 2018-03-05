@@ -27,6 +27,6 @@ class PhotoComponent : RComponent<PhotoProps, RState>() {
     }
 }
 
-fun RBuilder.welcome(photos: List<Photo> = listOf()) = child(PhotoComponent::class) {
+fun RBuilder.reactPhotoComponent(photos: List<Photo> = listOf()) = child(PhotoComponent::class) {
     attrs.photos = photos
 }
