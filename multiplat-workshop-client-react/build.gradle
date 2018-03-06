@@ -1,23 +1,16 @@
 buildscript {
-    ext.kotlin_version = '1.2.21'
-    ext.serialization_version = '0.4.1'
-
     repositories {
-        mavenCentral()
-        jcenter()
         maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
         maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "https://kotlin.bintray.com/kotlinx" }
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$serialization_version"
-        classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.27"
-        classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
+        def kotlin_frontend_plugin_version = "0.0.27"
+        def gradle_node_plugin_version = "1.2.0"
+        classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:" + kotlin_frontend_plugin_version
+        classpath "com.moowork.gradle:gradle-node-plugin:" + gradle_node_plugin_version
     }
 }
 
-version 'unspecified'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'org.jetbrains.kotlin.frontend'
 apply plugin: 'kotlin2js'
@@ -28,15 +21,21 @@ apply plugin: 'com.moowork.node'
 node {
     download = true
 }
-
 compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
-
 
 kotlinFrontend {
     downloadNodeJsVersion = 'latest'
     npm {
         dependency("react", "16.2.0")
         dependency("react-dom", "16.2.0")
+        devDependency("webpack-cli", "2.0.10")
+    }
+    webpackBundle {
+        bundleName = "bundle"
+        sourceMapEnabled = true
+        publicPath = "/"
+        port = 3000
+        stats = "verbose"
     }
 }
 
@@ -44,25 +43,33 @@ task buildBundle(type: NpmTask, dependsOn: [npmInstall, runDceKotlinJs]) {
     args = ["run", "bundle"]
 }
 
-assemble.dependsOn buildBundle
+task copyStatic {
+    copy {
+        from "src/main/static"
+        into 'build'
+    }
+}
+
+assemble.dependsOn(buildBundle, copyStatic)
+run.dependsOn(copyStatic)
+
 repositories {
-    mavenCentral()
-    jcenter()
-    maven { url "https://kotlin.bintray.com/kotlinx" }
     maven { url "https://kotlin.bintray.com/kotlin-js-wrappers" }
 }
 
 dependencies {
     compile project(":multiplat-workshop-js")
-    compile 'org.jetbrains:kotlin-extensions:1.0.1-pre.11-kotlin-1.2.21'
-    compile 'org.jetbrains:kotlin-react:16.2.1-pre.11-kotlin-1.2.21'
-    compile 'org.jetbrains:kotlin-react-dom:16.2.1-pre.11-kotlin-1.2.21'
-
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core-js:0.22.3'
-    compile "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serialization_version"
     expectedBy project(":multiplat-workshop-client")
+
+    compile "org.jetbrains:kotlin-extensions:$js_wrappers_version"
+    compile "org.jetbrains:kotlin-react:$react_wrapper_version"
+    compile "org.jetbrains:kotlin-react-dom:$react_wrapper_version"
+
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
+    compile "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serialization_version"
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
 }
+
 kotlin {
     experimental {
         coroutines "enable"
