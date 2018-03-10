@@ -5,8 +5,15 @@ dependencies {
     expectedBy project(":multiplat-workshop-common")
     compile "com.squareup.okhttp3:okhttp:$okhttp_version"
     compile "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
 }
 
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+kotlin {
+    experimental {
+        coroutines = "enable"
+    }
 }

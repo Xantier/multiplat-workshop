@@ -1,20 +1,32 @@
 package api
 
-import kotlinx.serialization.json.JSON
-import model.photoListSerializer
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import kotlinx.io.IOException
+import okhttp3.*
+import kotlin.coroutines.experimental.suspendCoroutine
 
 actual class ApiClient {
-    actual fun fetchPhotos(): String {
+    actual suspend fun fetchPhotos(): String {
         val client = OkHttpClient()
         val request = Request.Builder()
             .url(PHOTO_URL)
             .build()
-        val response = client.newCall(request).execute()
-        val returnable = response.body()?.string() ?: ""
-        val photoList = JSON.nonstrict.parse(photoListSerializer, returnable)
-        println(photoList)
-        return returnable
+        val response = client.newCall(request).await()
+        return response.body()?.string() ?: ""
+    }
+}
+
+
+suspend fun Call.await(): Response {
+    return suspendCoroutine { continuation ->
+        enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
+                continuation.resume(response)
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                // Don't bother with resuming the continuation if it is already cancelled.
+                continuation.resumeWithException(e)
+            }
+        })
     }
 }

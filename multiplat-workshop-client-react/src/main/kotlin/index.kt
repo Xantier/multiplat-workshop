@@ -1,6 +1,9 @@
 import common.ApiClientProvider
+import kotlinx.coroutines.experimental.launch
 
 fun main(args: Array<String>){
     val photoProvider = PhotoProvider()
-    photoProvider.fetchPhotos(ApiClientProvider())
+    launch {
+        photoProvider.fetchPhotos(ApiClientProvider())
+    }
 }

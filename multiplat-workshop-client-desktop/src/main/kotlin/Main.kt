@@ -1,6 +1,8 @@
+
 import common.ApiClientProvider
+import kotlinx.coroutines.experimental.runBlocking
 
 fun main(args: Array<String>){
     val photoProvider = PhotoProvider()
-    photoProvider.fetchPhotos(ApiClientProvider())
+    runBlocking { photoProvider.fetchPhotos(ApiClientProvider()) }
 }

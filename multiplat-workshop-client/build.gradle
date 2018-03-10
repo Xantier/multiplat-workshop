@@ -2,4 +2,12 @@ apply plugin: 'kotlin-platform-common'
 
 dependencies {
     compile project(":multiplat-workshop-common")
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+}
+
+
+kotlin {
+    experimental {
+        coroutines = "enable"
+    }
 }
