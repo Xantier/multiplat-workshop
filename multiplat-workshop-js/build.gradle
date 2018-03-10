@@ -1,15 +1,37 @@
 apply plugin: 'kotlin-platform-js'
-apply plugin: 'kotlinx-serialization'
-
-compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serialization_version"
     expectedBy project(":multiplat-workshop-common")
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
 }
+
+compileKotlin2Js {
+    kotlinOptions.outputFile = "${projectDir}/web/bundle.js"
+    kotlinOptions.moduleKind = 'umd'
+}
+
+task assembleWeb(type: Sync) {
+    configurations.compile.each { File file ->
+        from(zipTree(file.absolutePath), {
+            includeEmptyDirs = false
+            include { fileTreeElement ->
+                def path = fileTreeElement.path
+                path.endsWith(".js") && (path.startsWith("META-INF/resources/") ||
+                        !path.startsWith("META-INF/"))
+            }
+        })
+    }
+    from compileKotlin2Js.destinationDir
+    into "${projectDir}/web"
+
+    dependsOn classes
+}
+
+assemble.dependsOn assembleWeb
+
 kotlin {
     experimental {
-        coroutines "enable"
+        coroutines = "enable"
     }
 }
