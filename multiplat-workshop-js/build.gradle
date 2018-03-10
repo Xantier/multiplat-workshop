@@ -1,6 +1,8 @@
 apply plugin: 'kotlin-platform-js'
 apply plugin: 'kotlinx-serialization'
 
+compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
+
 dependencies {
     expectedBy project(":multiplat-workshop-common")
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines_version"
