@@ -1,0 +1,10 @@
+apply plugin: 'kotlin-platform-jvm'
+
+dependencies {
+    expectedBy project(":multiplat-workshop-client")
+    compile project(":multiplat-workshop-jvm")
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
