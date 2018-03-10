@@ -1,8 +1,18 @@
+buildscript {
+    dependencies {
+        def javafx_gradle_plugin_version='8.8.2'
+        classpath "de.dynamicfiles.projects.gradle.plugins:javafx-gradle-plugin:$javafx_gradle_plugin_version"
+    }
+}
+
 apply plugin: 'kotlin-platform-jvm'
+apply plugin: 'javafx-gradle-plugin'
 
 dependencies {
-    expectedBy project(":multiplat-workshop-client")
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    compile "no.tornado:tornadofx:$tornadofx_version"
     compile project(":multiplat-workshop-jvm")
+    expectedBy project(":multiplat-workshop-client")
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
 }
 
@@ -10,6 +20,17 @@ compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'MainKt'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+jfx {
+    mainClass = 'MainKt'
+    vendor = 'jussi'
+}
 
 kotlin {
     experimental {
